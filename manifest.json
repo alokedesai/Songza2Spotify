@@ -1,0 +1,12 @@
+{
+	"name" : "songza2spotify",
+	"version" : "0.1",
+	"description" : "Make spotify playlists from Songza playlists",
+	"content_scripts" : [
+		{
+			"matches" : ["https://www.songza.com/*", "http://www.songza.com/*"],
+			"js" : ["jquery.min.js", "main.js"]
+		}
+	],
+	"manifest_version" : 2
+}
