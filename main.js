@@ -1,9 +1,10 @@
 $(document).ready(function() {
+  var songs = [];
+  var trackURL = "spotify:trackset:Songza:";
   var currentSong = {};
 
   var checkExist = setInterval(function() {
    		if ($(".miniplayer-info-track-title").length) {
-        // alert("Exists!");
         addButton();
    		}
 	}, 1000); // check every 100ms
@@ -34,7 +35,10 @@ $(document).ready(function() {
         $("#songza").attr("target", "_blank");
         
         // update uri of currentSong
-        currentSong["uri"] = result["tracks"]["items"]["0"]["uri"];
+        currentSong["uri"] = result["tracks"]["items"]["0"]["id"];
+        trackURL += currentSong["uri"] + ",";
+        console.log(trackURL);
+        songs.push(currentSong);
       }
     });
   }
