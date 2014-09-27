@@ -4,7 +4,7 @@
 	"description" : "Make spotify playlists from Songza playlists",
 	"content_scripts" : [
 		{
-			"matches" : ["https://www.songza.com/*", "http://www.songza.com/*"],
+			"matches" : ["http://songza.com/*"],
 			"js" : ["jquery-1.11.1.min.js", "main.js"]
 		}
 	],
