@@ -8,7 +8,6 @@ $(document).ready(function() {
    		}
 	}, 1000); // check every 100ms
 
-
   function addButton() {
     var buttonString = "&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='songza'> Open in Spotify </a> </div>";
     if (!($("#songza").length)) {
