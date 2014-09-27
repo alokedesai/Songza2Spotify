@@ -14,8 +14,13 @@ $(document).ready(function() {
     if (!($("#songza").length)) {
       $(".miniplayer-info-playlist").append(buttonString);
       $(".miniplayer-info-playlist").append("&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='download'> Open All </a> </div>");
+      
+      // reset the trackURL back to it's original value
+      var trackURL = "spotify:trackset:Songza:";
+
       setCurrentSong();
       setLink();
+      addHandler();
     }
   }
 
@@ -41,6 +46,12 @@ $(document).ready(function() {
         console.log(trackURL);
         songs.push(currentSong);
       }
+    });
+  }
+
+  function addHandler() {
+    $("#download").click(function() {
+      window.open(trackURL);
     });
   }
 });
