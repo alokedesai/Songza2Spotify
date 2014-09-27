@@ -44,9 +44,14 @@ $(document).ready(function() {
     });
   }
 
-  function addHandler() {
+  function addHandlers() {
     $("#download").click(function() {
-      window.open(trackURL);
+      open(trackURL);
+      focus();
+    });
+
+    $("#songza").click(function(){
+      open("spotify:track:" + currentSong["uri"]);
     });
   }
 });
