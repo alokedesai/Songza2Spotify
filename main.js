@@ -10,9 +10,10 @@ $(document).ready(function() {
 	}, 1000); // check every 100ms
 
   function addButton() {
-    var buttonString = "&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='songza'> Open in Spotify </a> </div>";
+    var buttonString = "&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='songza'> Open Current </a> </div>";
     if (!($("#songza").length)) {
       $(".miniplayer-info-playlist").append(buttonString);
+      $(".miniplayer-info-playlist").append("&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='download'> Open All </a> </div>");
       setCurrentSong();
       setLink();
     }
