@@ -5,7 +5,7 @@
 	"content_scripts" : [
 		{
 			"matches" : ["https://www.songza.com/*", "http://www.songza.com/*"],
-			"js" : ["jquery.min.js", "main.js"]
+			"js" : ["jquery-1.11.1.min.js", "main.js"]
 		}
 	],
 	"manifest_version" : 2
