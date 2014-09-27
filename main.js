@@ -32,6 +32,9 @@ $(document).ready(function() {
         linkURL = result["tracks"]["items"]["0"]["external_urls"]["spotify"];
         $("#songza").attr("href", linkURL);
         $("#songza").attr("target", "_blank");
+        
+        // update uri of currentSong
+        currentSong["uri"] = result["tracks"]["items"]["0"]["uri"];
       }
     });
   }
