@@ -36,15 +36,10 @@ $(document).ready(function() {
     $.getJSON("https://api.spotify.com/v1/search?query=track:" + escape(currentSong["title"]) + "+artist:" + escape(currentSong["artist"]) + "&limit=20&type=track", function(result) {
       // set the link 
       if (result["tracks"]["items"].length) {
-        linkURL = result["tracks"]["items"]["0"]["external_urls"]["spotify"];
-        $("#songza").attr("href", linkURL);
-        $("#songza").attr("target", "_blank");
         
         // update uri of currentSong
         currentSong["uri"] = result["tracks"]["items"]["0"]["id"];
         trackURL += currentSong["uri"] + ",";
-        console.log(trackURL);
-        songs.push(currentSong);
       }
     });
   }
