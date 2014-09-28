@@ -8,6 +8,7 @@ $(document).ready(function() {
    		}
 	}, 1000); // check every 100ms
   var songs;
+  var allowDownload = true;
 
   function addButton(trackURL) {
     // we only want stuff to happen if we haven't already added anything 
@@ -32,7 +33,7 @@ $(document).ready(function() {
 
       var artist = $(".miniplayer-info-artist-name a").attr("title");
       var title = $(".miniplayer-info-track-title").text();
-      setLink(title, artist);
+      setLink(title, artist, true);
     }
   }
 
@@ -44,16 +45,24 @@ $(document).ready(function() {
         var currentTrackId = result["tracks"]["items"]["0"]["id"];
         trackURL += currentTrackId + ",";
         console.log(trackURL);
-        addHandlers(trackURL, currentTrackId)
+        if (addHandler){
+          addHandlers(currentTrackId);
+        }
       }
     });
   }
 
-  function addHandlers(trackURL, currentTrackId) {
+  function addHandlers(currentTrackId) {
     $("#download").click(function() {
-      songs = setInterval(getRest, 1000);
-      open(trackURL);
-      focus();
+      if (allowDownload) {
+        allowDownload = false;
+        var c = confirm("Are you sure you want to download the rest of the songs on this playlist? This may take around 30 seconds. Spotify will open will the songs when it's ready!");
+        if (c) {
+          songs = setInterval(getRest, 500);
+        }  
+      } else {
+        alert("We're currently trying to download the songs. Please wait until trying this again.");
+      }
     });
 
     $("#songza").click(function(){
@@ -66,14 +75,19 @@ $(document).ready(function() {
     $.getJSON("http://songza.com/api/1/station/" + station_id + "/next", function(result){
       var title = result["song"]["title"];
       var artist = result["song"]["artist"]["name"];
-      setLink(title, artist);
+      setLink(title, artist, false);
     }).fail(function(jqXHR){
         if (jqXHR.status == 403) {
           // if we're forbidden, we end the iterating
-          console.log("403!");
-          clearInterval(songs);
+          end();
         }
     });   
+  }
+
+  function end() {
+    clearInterval(songs);
+    open(trackURL);
+    allowDownload = true;
   }
 
 });
