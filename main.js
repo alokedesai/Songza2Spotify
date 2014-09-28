@@ -45,7 +45,6 @@ $(document).ready(function() {
       if (result["tracks"]["items"].length > 0) {    
         var currentTrackId = result["tracks"]["items"]["0"]["id"];
         trackURL += currentTrackId + ",";
-        console.log(trackURL);
         if (addHandler){
           addHandlers(currentTrackId);
         }
