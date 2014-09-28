@@ -2,14 +2,15 @@ $(document).ready(function() {
   "use strict";
 
   var trackURL = "spotify:trackset:Songza:";
-
   var checkExist = setInterval(function() {
    		if ($(".miniplayer-info-track-title").length > 0) {
         addButton();
    		}
 	}, 1000); // check every 100ms
+  var songs;
 
   function addButton(trackURL) {
+    // we only want stuff to happen if we haven't already added anything 
     if ($("#songza").length === 0) {
       var $linkToCurrent = $("<a>")
                             .attr("id", "songza")
@@ -35,7 +36,7 @@ $(document).ready(function() {
     }
   }
 
-  function setLink(title, artist) {
+  function setLink(title, artist, addHandler) {
     var output = "";
     // make spotify request
     $.getJSON("https://api.spotify.com/v1/search?query=track:" + escape(title) + "+artist:" + escape(artist) + "&limit=20&type=track", function(result) {
@@ -50,6 +51,7 @@ $(document).ready(function() {
 
   function addHandlers(trackURL, currentTrackId) {
     $("#download").click(function() {
+      songs = setInterval(getRest, 1000);
       open(trackURL);
       focus();
     });
@@ -58,4 +60,20 @@ $(document).ready(function() {
       open("spotify:track:" + currentTrackId);
     });
   }
+
+  function getRest() {
+    var station_id = $(".miniplayer-info-playlist-favorite-status").attr("data-sz-station-id");
+    $.getJSON("http://songza.com/api/1/station/" + station_id + "/next", function(result){
+      var title = result["song"]["title"];
+      var artist = result["song"]["artist"]["name"];
+      setLink(title, artist);
+    }).fail(function(jqXHR){
+        if (jqXHR.status == 403) {
+          // if we're forbidden, we end the iterating
+          console.log("403!");
+          clearInterval(songs);
+        }
+    });   
+  }
+
 });
