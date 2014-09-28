@@ -31,29 +31,15 @@ $(document).ready(function() {
 
       var artist = $(".miniplayer-info-artist-name a").attr("title");
       var title = $(".miniplayer-info-track-title").text();
-      // setCurrentSong();
       setLink(title, artist);
     }
-  }
-
-  function setCurrentSong() {
-    currentSong["title"] = $(".miniplayer-info-track-title").text();
-    currentSong["artist"] = $(".miniplayer-info-artist-name a").attr("title");
-    var albumTitle = $(".miniplayer-info-album-title").text();
-    currentSong["album"] = albumTitle.slice(5, albumTitle.length);
   }
 
   function setLink(title, artist) {
     var output = "";
     // make spotify request
     $.getJSON("https://api.spotify.com/v1/search?query=track:" + escape(title) + "+artist:" + escape(artist) + "&limit=20&type=track", function(result) {
-      // set the link 
-      if (result["tracks"]["items"].length > 0) {
-        console.log(result["tracks"]["items"]["0"]["id"]);
-        // // update uri of currentSong
-        // currentSong["uri"] = result["tracks"]["items"]["0"]["id"];
-        // trackURL += currentSong["uri"] + ",";
-        // return result["tracks"]["items"]["0"]["id"];
+      if (result["tracks"]["items"].length > 0) {    
         var currentTrackId = result["tracks"]["items"]["0"]["id"];
         trackURL += currentTrackId + ",";
         console.log(trackURL);
