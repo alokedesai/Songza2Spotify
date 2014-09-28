@@ -7,6 +7,7 @@ $(document).ready(function() {
         addButton();
    		}
 	}, 1000); // check every 100ms
+
   var songs;
   var allowDownload = true;
 
@@ -73,9 +74,14 @@ $(document).ready(function() {
   function getRest() {
     var station_id = $(".miniplayer-info-playlist-favorite-status").attr("data-sz-station-id");
     $.getJSON("http://songza.com/api/1/station/" + station_id + "/next", function(result){
-      var title = result["song"]["title"];
-      var artist = result["song"]["artist"]["name"];
-      setLink(title, artist, false);
+      // automatically end if we get to the end of the playlist
+      if (result["code"] == "end") {
+        end();
+      } else {
+        var title = result["song"]["title"];
+        var artist = result["song"]["artist"]["name"];
+        setLink(title, artist, false);
+      }
     }).fail(function(jqXHR){
         if (jqXHR.status == 403) {
           // if we're forbidden, we end the iterating
