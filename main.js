@@ -3,13 +3,13 @@ $(document).ready(function() {
   var currentSong = {};
 
   var checkExist = setInterval(function() {
-   		if ($(".miniplayer-info-track-title").length) {
+   		if ($(".miniplayer-info-track-title").length > 0) {
         addButton();
    		}
 	}, 1000); // check every 100ms
 
   function addButton() {
-    if (!($("#songza").length)) {
+    if ($("#songza").length === 0) {
       var addString = "<div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='songza'> Open Current </a> </div>";
       var downloadString = "&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='download'> Open All </a> </div>";
       $(".miniplayer-info-playlist").append(addString);
