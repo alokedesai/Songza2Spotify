@@ -1,6 +1,7 @@
 $(document).ready(function() {
+  "use strict";
+
   var trackURL = "spotify:trackset:Songza:";
-  var currentSong = {};
 
   var checkExist = setInterval(function() {
    		if ($(".miniplayer-info-track-title").length > 0) {
@@ -8,50 +9,67 @@ $(document).ready(function() {
    		}
 	}, 1000); // check every 100ms
 
-  function addButton() {
+  function addButton(trackURL) {
     if ($("#songza").length === 0) {
-      var addString = "<div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='songza'> Open Current </a> </div>";
-      var downloadString = "&nbsp; <div style='padding-left: 5px' class='miniplayer-info-playlist-title'> <a id='download'> Open All </a> </div>";
-      $(".miniplayer-info-playlist").append(addString);
-      $(".miniplayer-info-playlist").append(downloadString);
-      
-      // reset the trackURL back to it's original value
-      var trackURL = "spotify:trackset:Songza:";
+      var $linkToCurrent = $("<a>")
+                            .attr("id", "songza")
+                            .text("Open Current"),
+        $add = $("<div>")
+                .css("padding-left", "5px")
+                .addClass("miniplayer-info-playlist-title")
+                .append($linkToCurrent),
+        $downloadLink = $("<a>")
+                        .attr("id", "download")
+                        .text("Open All"),
+        $download = $("<div>")
+                    .css("padding-left", "5px")
+                    .addClass("miniplayer-info-playlist-title")
+                    .append($downloadLink);
 
-      setCurrentSong();
-      setLink();
-      addHandlers();
+      $(".miniplayer-info-playlist").append($add);
+      $(".miniplayer-info-playlist").append($download);
+
+      var artist = $(".miniplayer-info-artist-name a").attr("title");
+      var title = $(".miniplayer-info-track-title").text();
+      // setCurrentSong();
+      setLink(title, artist);
     }
   }
 
   function setCurrentSong() {
     currentSong["title"] = $(".miniplayer-info-track-title").text();
     currentSong["artist"] = $(".miniplayer-info-artist-name a").attr("title");
-    albumTitle = $(".miniplayer-info-album-title").text();
+    var albumTitle = $(".miniplayer-info-album-title").text();
     currentSong["album"] = albumTitle.slice(5, albumTitle.length);
   }
 
-  function setLink() {
+  function setLink(title, artist) {
+    var output = "";
     // make spotify request
-    $.getJSON("https://api.spotify.com/v1/search?query=track:" + escape(currentSong["title"]) + "+artist:" + escape(currentSong["artist"]) + "&limit=20&type=track", function(result) {
+    $.getJSON("https://api.spotify.com/v1/search?query=track:" + escape(title) + "+artist:" + escape(artist) + "&limit=20&type=track", function(result) {
       // set the link 
-      if (result["tracks"]["items"].length) {
-        
-        // update uri of currentSong
-        currentSong["uri"] = result["tracks"]["items"]["0"]["id"];
-        trackURL += currentSong["uri"] + ",";
+      if (result["tracks"]["items"].length > 0) {
+        console.log(result["tracks"]["items"]["0"]["id"]);
+        // // update uri of currentSong
+        // currentSong["uri"] = result["tracks"]["items"]["0"]["id"];
+        // trackURL += currentSong["uri"] + ",";
+        // return result["tracks"]["items"]["0"]["id"];
+        var currentTrackId = result["tracks"]["items"]["0"]["id"];
+        trackURL += currentTrackId + ",";
+        console.log(trackURL);
+        addHandlers(trackURL, currentTrackId)
       }
     });
   }
 
-  function addHandlers() {
+  function addHandlers(trackURL, currentTrackId) {
     $("#download").click(function() {
       open(trackURL);
       focus();
     });
 
     $("#songza").click(function(){
-      open("spotify:track:" + currentSong["uri"]);
+      open("spotify:track:" + currentTrackId);
     });
   }
 });
