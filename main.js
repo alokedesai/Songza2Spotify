@@ -55,9 +55,9 @@ $(document).ready(function() {
   function addHandlers(currentTrackId) {
     $("#download").click(function() {
       if (allowDownload) {
-        allowDownload = false;
         var c = confirm("Are you sure you want to download the rest of the songs on this playlist? This may take around 30 seconds. Spotify will open will the songs when it's ready!");
         if (c) {
+          allowDownload = false;
           songs = setInterval(getRest, 500);
         }  
       } else {
