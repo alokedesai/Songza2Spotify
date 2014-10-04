@@ -1,5 +1,5 @@
 {
-	"name" : "songza2spotify",
+	"name" : "Songza2Spotify",
 	"version" : "0.1",
 	"description" : "Make Spotify playlists from Songza playlists",
 	"content_scripts" : [
