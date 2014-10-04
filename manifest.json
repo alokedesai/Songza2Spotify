@@ -1,7 +1,7 @@
 {
 	"name" : "songza2spotify",
 	"version" : "0.1",
-	"description" : "Make spotify playlists from Songza playlists",
+	"description" : "Make Spotify playlists from Songza playlists",
 	"content_scripts" : [
 		{
 			"matches" : ["http://songza.com/*"],
